@@ -3,30 +3,20 @@
 import { useState, useEffect } from "react"
 import { Text } from "@visx/text"
 import { Wordcloud } from "@visx/wordcloud"
-import { scaleLog } from "@visx/scale"
 
+interface WordCloudDisplayProps {
+  names: string[]
+}
 interface WordData {
   text: string
   value: number
 }
 
-interface WordCloudDisplayProps {
-  names: string[]
-}
-
 export default function WordCloudDisplay({ names }: WordCloudDisplayProps) {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
 
-  // Process names into word data with frequency counts
-  const wordData: WordData[] = names.reduce((acc: WordData[], name: string) => {
-    const existingWord = acc.find((item) => item.text.toLowerCase() === name.toLowerCase())
-    if (existingWord) {
-      existingWord.value += 1
-    } else {
-      acc.push({ text: name, value: 1 })
-    }
-    return acc
-  }, [])
+  // Process names into word data (each name will have a value of 1)
+  const wordData = names.map((name) => ({ text: name, value: 1 }))
 
   // Update dimensions on mount and resize
   useEffect(() => {
@@ -42,20 +32,18 @@ export default function WordCloudDisplay({ names }: WordCloudDisplayProps) {
     return () => window.removeEventListener("resize", updateDimensions)
   }, [])
 
-  // Font size scale based on word frequency
-  const fontSizeScale = scaleLog({
-    domain: [Math.min(...wordData.map((w) => w.value)), Math.max(...wordData.map((w) => w.value))],
-    range: [14, 80],
-  })
-
-  // Font size accessor function
-  const fontSize = (word: WordData) => fontSizeScale(word.value)
+  const fontSize = (word: WordData) => {
+    // Make 403 bigger
+    if (word.text === "403") {
+      return dimensions.width < 600 ? 100 : 150 // Make "403" larger for small screens
+    }
+ return dimensions.width < 600 ? 20 : 40   }
 
   // Fixed rotation of 35 degrees
   const getRotationDegree = () => 35
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full opacity-70">
       {dimensions.width > 0 && dimensions.height > 0 && (
         <Wordcloud
           words={wordData}
@@ -69,22 +57,25 @@ export default function WordCloudDisplay({ names }: WordCloudDisplayProps) {
           random={() => 0.5}
         >
           {(cloudWords) =>
-            cloudWords.map((w, i) => (
-              <Text
-                key={`${w.text}-${i}`}
-                fill={`hsl(${(i * 360) / cloudWords.length}, 70%, 50%)`}
-                textAnchor="middle"
-                transform={`translate(${w.x}, ${w.y}) rotate(${w.rotate})`}
-                fontSize={w.size}
-                fontFamily={w.font}
-              >
-                {w.text}
-              </Text>
-            ))
+            cloudWords.map((w, i) => {
+              const transform = `translate(${w.x}, ${w.y}) rotate(${w.rotate})`
+
+              return (
+                <Text
+                  key={`${w.text}-${i}`}
+                  fill={`hsl(${(i * 360) / cloudWords.length}, 70%, 50%)`}
+                  textAnchor="middle"
+                  transform={transform}
+                  fontSize={w.size}
+                  fontFamily={w.font}
+                >
+                  {w.text}
+                </Text>
+              )
+            })
           }
         </Wordcloud>
       )}
     </div>
   )
 }
-

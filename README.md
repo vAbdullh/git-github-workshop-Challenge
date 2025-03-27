@@ -25,6 +25,6 @@
    Push your branch to your forked repository using `git push origin <branch-name>`.
 
 7. **Open a pull request**  
-   Navigate to the main repository and open a pull request from your branch. Make sure to include a meaningful description.
+   Navigate to the **original repository** on GitHub and open a pull request from your **forked repository's** branch on your account.
 
 ---

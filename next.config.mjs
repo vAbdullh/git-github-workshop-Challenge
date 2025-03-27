@@ -7,8 +7,8 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  basePath: '/git-github-workshop-Challenge',
+  // output: 'export',
+  // basePath: '/git-github-workshop-Challenge',
   eslint: {
     ignoreDuringBuilds: true,
   },

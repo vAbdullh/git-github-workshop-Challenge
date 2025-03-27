@@ -1,6 +1,7 @@
 ![Challenge Banner](banner/img.png)
 
 # Complete the Challenge and Put Your Name on the Board!
+
 ### [Visit the GitHub Workshop Website](https://git-github-workshop.web.app/)
 
 ## How to Participate
@@ -29,3 +30,5 @@
    Navigate to the **original repository** on GitHub and open a pull request from your **forked repository's** branch on your account.
 
 ---
+
+### [For help in the challenge](https://git-github-workshop.web.app/about)

@@ -1,6 +1,7 @@
 ![Challenge Banner](banner/img.png)
 
 # Complete the Challenge and Put Your Name on the Board!
+### [Visit the GitHub Workshop Website](https://git-github-workshop.web.app/)
 
 ## How to Participate
 
